@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Resources - DronArchive</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f9f9f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .nav-link {
+            transition: all 0.3s ease;
+        }
+
+            .nav-link:hover {
+                color: #ffd700 !important;
+            }
+
+        .card {
+            border: none;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 12px;
+        }
+
+            .card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            }
+
+        .card-header {
+            background-color: #007bff;
+            color: white;
+            font-weight: 600;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            padding: 1rem 1.5rem;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        h2 {
+            font-weight: 600;
+            color: #007bff;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .form-label {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .btn-outline-secondary {
+            border-color: #6c757d;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+            .btn-outline-secondary:hover {
+                background-color: #e9ecef;
+                color: #333;
+                border-color: #6c757d;
+            }
+
+        .dropdown-menu {
+            border: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f8f9fa;
+            color: #007bff;
+        }
+
+        .pagination {
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .page-link {
+            color: #007bff;
+            border-radius: 6px;
+            margin: 0 0.25rem;
+        }
+
+        .page-item.active .page-link {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: white;
+        }
+
+        .modal-header {
+            background-color: #007bff;
+            color: white;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+
+        .modal-footer {
+            background-color: #f8f9fa;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            border-top: 1px solid #ddd;
+        }
+
+        footer {
+            background-color: #222;
+            color: white;
+            padding: 1.5rem 0;
+            margin-top: auto;
+        }
+
+            footer a {
+                color: white;
+                text-decoration: none;
+            }
+
+                footer a:hover {
+                    text-decoration: underline;
+                }
+
+        .dropdown-toggle::after {
+            margin-left: 0.5rem;
+            border-top: 0.3em solid;
+            border-right: 0.3em solid transparent;
+            border-bottom: 0;
+            border-left: 0.3em solid transparent;
+        }
+
+        .btn-outline-primary {
+            color: #007bff;
+            border-color: #007bff;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+            .btn-outline-primary:hover,
+            .btn-outline-primary.active,
+            .btn-outline-primary:active {
+                background-color: #007bff;
+                color: white;
+                border-color: #007bff;
+            }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">DronArchive</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="browse.html">Browse Resources</a>
+                    </li>
+                    <li class="nav-item contributor-only d-none">
+                        <a class="nav-link" href="upload.html">Upload</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <div class="dropdown me-3 logged-in-only d-none">
+                        <button class="btn btn-outline-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown">
+                            <span class="user-display-name"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="dashboard.html">Dashboard</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><button class="dropdown-item" id="logout-btn">Logout</button></li>
+                        </ul>
+                    </div>
+                    <a href="login.html" class="btn btn-outline-light logged-out-only">Login</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid my-4">
+        <div class="row">
+            <!-- Sidebar Filter -->
+            <div class="col-lg-3">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Filter Resources</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="filter-form">
+                            <div class="mb-3">
+                                <label for="filter-branch" class="form-label">Branch</label>
+                                <select class="form-select" id="filter-branch">
+                                    <option value="" selected>All Branches</option>
+                                    <option value="Computer Science">Computer Science</option>
+                                    <option value="Electrical Engineering">Electrical Engineering</option>
+                                    <option value="Mechanical Engineering">Mechanical Engineering</option>
+                                    <option value="Civil Engineering">Civil Engineering</option>
+                                    <option value="Electronics">Electronics</option>
+                                    <option value="Chemical Engineering">Chemical Engineering</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="filter-semester" class="form-label">Semester</label>
+                                <select class="form-select" id="filter-semester">
+                                    <option value="" selected>All Semesters</option>
+                                    <option value="1">Semester 1</option>
+                                    <option value="2">Semester 2</option>
+                                    <option value="3">Semester 3</option>
+                                    <option value="4">Semester 4</option>
+                                    <option value="5">Semester 5</option>
+                                    <option value="6">Semester 6</option>
+                                    <option value="7">Semester 7</option>
+                                    <option value="8">Semester 8</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="filter-subject" class="form-label">Subject</label>
+                                <select class="form-select" id="filter-subject">
+                                    <option value="" selected>All Subjects</option>
+                                    <!-- Will be populated based on branch and semester selection -->
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="filter-type" class="form-label">Resource Type</label>
+                                <select class="form-select" id="filter-type">
+                                    <option value="" selected>All Types</option>
+                                    <option value="notes">Notes</option>
+                                    <option value="assignment">Assignment</option>
+                                    <option value="exam">Exam Paper</option>
+                                    <option value="textbook">Textbook</option>
+                                    <option value="reference">Reference Material</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="filter-search" class="form-label">Search</label>
+                                <input type="text" class="form-control" id="filter-search" placeholder="Search by title, tag, or description">
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">Apply Filters</button>
+                                <button type="button" class="btn btn-outline-secondary" id="clear-filters">Clear Filters</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-9">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Browse Resources</h2>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-outline-primary active" id="view-grid">
+                            <i class="fas fa-th-large"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-primary" id="view-list">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <p><span id="resource-count">0</span> resources found</p>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown">
+                            Sort by: <span id="current-sort">Newest</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item sort-option" data-sort="newest" href="#">Newest</a></li>
+                            <li><a class="dropdown-item sort-option" data-sort="oldest" href="#">Oldest</a></li>
+                            <li><a class="dropdown-item sort-option" data-sort="az" href="#">A-Z</a></li>
+                            <li><a class="dropdown-item sort-option" data-sort="za" href="#">Z-A</a></li>
+                            <li><a class="dropdown-item sort-option" data-sort="popular" href="#">Most Downloaded</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Resource Grid View (Default) -->
+                <div id="resources-grid" class="row g-4">
+                    <!-- Resources will be populated here -->
+                    <div class="col-12 text-center py-5" id="no-resources">
+                        <p class="text-muted">No resources match your criteria.</p>
+                    </div>
+                </div>
+
+                <!-- Resource List View (Hidden by default) -->
+                <div id="resources-list" class="d-none">
+                    <div class="list-group">
+                        <!-- Resources will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <nav aria-label="Resource pagination" class="mt-4">
+                    <ul class="pagination justify-content-center" id="pagination">
+                        <!-- Pagination will be dynamically generated -->
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resource Preview Modal -->
+    <div class="modal fade" id="resourceModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-resource-title">Resource Title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-8">
+                            <p id="modal-resource-description">Description</p>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-grid gap-2">
+                                <a href="#" class="btn btn-primary" id="modal-download-btn" target="_blank">
+                                    <i class="fas fa-download me-2"></i>Download PDF
+                                </a>
+                                <button class="btn btn-outline-primary" id="modal-bookmark-btn">
+                                    <i class="far fa-bookmark me-2"></i>Bookmark
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p><strong>Branch:</strong> <span id="modal-branch"></span></p>
+                            <p><strong>Semester:</strong> <span id="modal-semester"></span></p>
+                            <p><strong>Subject:</strong> <span id="modal-subject"></span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Type:</strong> <span id="modal-type"></span></p>
+                            <p><strong>Uploaded:</strong> <span id="modal-upload-date"></span></p>
+                            <p><strong>Downloads:</strong> <span id="modal-downloads"></span></p>
+                        </div>
+                    </div>
+
+                    <div id="modal-tags" class="mb-3">
+                        <!-- Tags will be populated here -->
+                    </div>
+
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" id="pdf-preview" style="width: 100%; height: 500px;"></iframe>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white py-4 mt-auto">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>&copy; 2025  DronArchive. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#" class="text-white me-3">Privacy Policy</a>
+                    <a href="#" class="text-white">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+
+    <script src="js/auth.js"></script>
+    <script src="js/browse.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

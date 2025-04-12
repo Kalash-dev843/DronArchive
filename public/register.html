@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - DronArchive</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .nav-link {
+            transition: all 0.3s ease;
+        }
+
+            .nav-link:hover {
+                color: #ffd700 !important;
+            }
+
+        .card {
+            border: none;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+            border-radius: 12px;
+        }
+
+        .card-body {
+            padding: 3rem;
+        }
+
+        h2 {
+            font-weight: 600;
+            color: #007bff;
+            margin-bottom: 2rem;
+        }
+
+        .nav-tabs {
+            border-bottom: 2px solid #007bff;
+        }
+
+            .nav-tabs .nav-link {
+                border: none;
+                border-bottom: 2px solid transparent;
+                color: #555;
+                transition: all 0.3s ease;
+                border-radius: 0;
+            }
+
+                .nav-tabs .nav-link.active,
+                .nav-tabs .nav-link:hover {
+                    border-bottom-color: #ffd700;
+                    color: #007bff;
+                }
+
+        .form-label {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+        }
+
+            .form-control:focus {
+                border-color: #007bff;
+                box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            }
+
+        .form-text {
+            font-size: 0.875rem;
+            color: #777;
+            margin-top: 0.25rem;
+        }
+
+        .form-check-label {
+            color: #333;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            font-weight: bold;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+                border-color: #0056b3;
+            }
+
+        .mt-4 a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s ease, text-decoration 0.3s ease;
+        }
+
+            .mt-4 a:hover {
+                color: #0056b3;
+                text-decoration: underline;
+            }
+
+        footer {
+            background-color: #222;
+            color: white;
+            padding: 1.5rem 0;
+            margin-top: auto;
+        }
+
+            footer a {
+                color: white;
+                text-decoration: none;
+            }
+
+                footer a:hover {
+                    text-decoration: underline;
+                }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">DronArchive</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="browse.html">Browse Resources</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="register.html">Register</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-body p-5">
+                        <h2 class="text-center mb-4">Create an Account</h2>
+
+                        <div id="error-message" class="alert alert-danger d-none"></div>
+
+                        <ul class="nav nav-tabs mb-4" id="registerTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="regular-tab" data-bs-toggle="tab" data-bs-target="#regular" type="button" role="tab">
+                                    Regular User
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="contributor-tab" data-bs-toggle="tab" data-bs-target="#contributor" type="button" role="tab">
+                                    Contributor (Invite)
+                                </button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content" id="registerTabContent">
+                            <!-- Regular User Registration -->
+                            <div class="tab-pane fade show active" id="regular" role="tabpanel">
+                                <form id="register-form">
+                                    <div class="mb-3">
+                                        <label for="display-name" class="form-label">Full Name</label>
+                                        <input type="text" class="form-control" id="display-name" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email address</label>
+                                        <input type="email" class="form-control" id="email" required>
+                                        <div class="form-text">Use your college email for verification.</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="password" required>
+                                        <div class="form-text">Password must be at least 8 characters long.</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="confirm-password" class="form-label">Confirm Password</label>
+                                        <input type="password" class="form-control" id="confirm-password" required>
+                                    </div>
+                                    <div class="mb-3 form-check">
+                                        <input type="checkbox" class="form-check-input" id="terms" required>
+                                        <label class="form-check-label" for="terms">I agree to the Terms and Conditions</label>
+                                    </div>
+                                    <div class="d-grid gap-2">
+                                        <button type="submit" class="btn btn-primary">Register</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Contributor Registration -->
+                            <div class="tab-pane fade" id="contributor" role="tabpanel">
+                                <form id="contributor-form">
+                                    <div class="mb-3">
+                                        <label for="invite-code" class="form-label">Invitation Code</label>
+                                        <input type="text" class="form-control" id="invite-code" required>
+                                        <div class="form-text">Enter the invitation code you received from a moderator.</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="contributor-email" class="form-label">Email address</label>
+                                        <input type="email" class="form-control" id="contributor-email" required>
+                                        <div class="form-text">Must match the email the invitation was sent to.</div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="contributor-name" class="form-label">Full Name</label>
+                                        <input type="text" class="form-control" id="contributor-name" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="contributor-password" class="form-label">Password</label>
+                                        <input type="password" class="form-control" id="contributor-password" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="contributor-confirm-password" class="form-label">Confirm Password</label>
+                                        <input type="password" class="form-control" id="contributor-confirm-password" required>
+                                    </div>
+                                    <div class="mb-3 form-check">
+                                        <input type="checkbox" class="form-check-input" id="contributor-terms" required>
+                                        <label class="form-check-label" for="contributor-terms">I agree to the Terms and Conditions</label>
+                                    </div>
+                                    <div class="d-grid gap-2">
+                                        <button type="submit" class="btn btn-primary">Register as Contributor</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 text-center">
+                            <p>Already have an account? <a href="login.html">Login</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white py-4 mt-auto">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>&copy; 2025 DronArchive. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#" class="text-white me-3">Privacy Policy</a>
+                    <a href="#" class="text-white">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <script src="js/auth.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
